@@ -1,46 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { Pokemon } from 'src/interfaces/pokemon.interface';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class PokemonService {
-  findAll(): Pokemon[] {
-    return [
-      {
-        name: 'bulbasaur',
-        url: 'https://pokeapi.co/api/v2/pokemon/1/',
-      },
-      {
-        name: 'ivysaur',
-        url: 'https://pokeapi.co/api/v2/pokemon/2/',
-      },
-      {
-        name: 'venusaur',
-        url: 'https://pokeapi.co/api/v2/pokemon/3/',
-      },
-      {
-        name: 'charmander',
-        url: 'https://pokeapi.co/api/v2/pokemon/4/',
-      },
-      {
-        name: 'charmeleon',
-        url: 'https://pokeapi.co/api/v2/pokemon/5/',
-      },
-      {
-        name: 'charizard',
-        url: 'https://pokeapi.co/api/v2/pokemon/6/',
-      },
-      {
-        name: 'squirtle',
-        url: 'https://pokeapi.co/api/v2/pokemon/7/',
-      },
-      {
-        name: 'wartortle',
-        url: 'https://pokeapi.co/api/v2/pokemon/8/',
-      },
-      {
-        name: 'blastoise',
-        url: 'https://pokeapi.co/api/v2/pokemon/9/',
-      },
-    ];
+  constructor(private prisma: PrismaService) {}
+
+  findAll() {
+    return this.prisma.pokemon.findMany();
+  }
+
+  findOne(id: number) {
+    return this.prisma.pokemon.findUnique({ where: { id: id } });
   }
 }

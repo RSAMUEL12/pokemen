@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { Pokemon } from 'src/interfaces/pokemon.interface';
 import { PokemonService } from './pokemon.service';
 
@@ -6,8 +6,13 @@ import { PokemonService } from './pokemon.service';
 export class PokemonController {
   constructor(private pokemonService: PokemonService) {}
 
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.pokemonService.findOne(+id);
+  }
+
   @Get()
-  findAll(): Pokemon[] {
+  findAll() {
     return this.pokemonService.findAll();
   }
 }
